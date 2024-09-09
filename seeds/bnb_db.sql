@@ -25,3 +25,8 @@ CREATE TABLE listings (
     references users(id)
     on delete cascade
 );
+
+
+INSERT INTO users (username) VALUES ('Catherine');
+INSERT INTO users (username) VALUES ('Sarah');
+INSERT INTO users (username) VALUES ('Andy');
