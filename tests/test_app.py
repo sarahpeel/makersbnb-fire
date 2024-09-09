@@ -14,3 +14,14 @@ def test_get_index(page, test_web_address):
 
     # We assert that it has the text "This is the homepage."
     expect(p_tag).to_have_text("This is the homepage.")
+
+"""
+we can render the register page
+"""
+def test_get_register(page, test_web_address):
+    page.goto(f"http://{test_web_address}/register")
+    p_tag = page.locator("h1")
+    expect(p_tag).to_have_text("Provide the following details to set up your account:")
+
+"""
+"""
