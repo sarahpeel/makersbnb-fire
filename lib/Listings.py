@@ -1,6 +1,6 @@
 class Listing:
 
-    def __init__(self, id, name, description, location, price, occupied=False):
+    def __init__(self, id, name, description, location, price, occupied=False, availability=[]):
         self.id = id
         self.name = name
         self.description = description
@@ -15,6 +15,7 @@ class Listing:
     def __repr__(self):
         return f'Listing({self.id}, {self.name}, {self.description}, {self.location}, {self.price}, {self.occupied}, {self.availability})'
     
+    # Call add_availability before adding to repository
     def add_availability(self, availability):
         self.availability.append(availability)
         
