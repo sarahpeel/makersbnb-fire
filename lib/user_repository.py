@@ -15,5 +15,15 @@ class UserRepository:
         return users
 
     def create_new_user(self, user):
-        self._connection.execute('INSERT INTO users (username) VALUES (%s);', [user.username])
-        return None
+        username = user.username
+        self._connection.execute('INSERT INTO users (username) VALUES (%s);', [username])
+        rows = self._connection.execute(
+            'SELECT id from users WHERE username = %s', [username])
+        row = rows[0]
+        return row["id"]
+    
+    def find(self, user_id):
+        rows = self._connection.execute(
+            'SELECT * from users WHERE id = %s', [user_id])
+        row = rows[0]
+        return User(row["id"], row["username"])
