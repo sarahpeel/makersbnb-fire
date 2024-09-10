@@ -3,6 +3,7 @@ from flask import Flask, request, redirect, session, render_template
 from lib.database_connection import get_flask_database_connection
 from lib.user_repository import UserRepository
 from lib.User import User
+
 from lib.Listings import Listing
 from lib.ListingsRepository import ListingRepository
 
@@ -66,6 +67,14 @@ def post_a_space():
     listings_repo.add_listing(new_listing)
 
     return render_template('listingsuccess.html', listing=new_listing)
+
+@app.route('/listings', methods=['GET'])
+def get_listings():
+    connection = get_flask_database_connection(app)
+    listings_repo = ListingRepository(connection)
+    listings = listings_repo.all()
+    return render_template('listings.html', listings=listings)
+
 
 
 

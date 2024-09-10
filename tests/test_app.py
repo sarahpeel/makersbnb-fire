@@ -38,3 +38,13 @@ def test_register_new_user_success(db_connection, page, test_web_address):
     expect(title_element).to_have_text("You have successfully registered.")
     para_element = page.locator(".t-username")
     expect(para_element).to_have_text("Your username: Dewi")
+
+"""
+we can render a listings page
+with a list of all places
+"""
+def test_show_all_listings(db_connection, page, test_web_address):
+    db_connection.seed("seeds/bnb_db.sql")
+    page.goto(f"http://{test_web_address}/listings")
+    p_tag = page.locator("h1")
+    expect(p_tag).to_have_text("Current Listings")

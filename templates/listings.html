@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Listings</title>
+
+        <!--
+            Head to https://github.com/makersacademy/web-applications-in-python/blob/main/pills/loading_css_or_static_files.md
+            If you're wondering how the CSS file below is being loaded.
+        -->
+        <link rel="stylesheet" href="/static/style.css" >
+    </head>
+    <body>
+        <h1>Current Listings</h1>
+        {% for listing in listings %}
+        <div class="ListingsBox">
+            <p class="boxtext">
+                Property name: {{listing.name}}
+            </p>
+            <p class="boxtext">
+                Description: {{listing.description}}
+            </p>
+            <p class="boxtext">
+                Location: {{listing.location}}
+            </p>
+            <p class="boxtext">
+                Price per night: £{{listing.price}}
+            </p>
+        </div>
+        {% endfor %}
+    </body>
+</html>
