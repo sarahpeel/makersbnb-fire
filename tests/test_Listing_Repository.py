@@ -35,7 +35,9 @@ def test_check_listing_added(db_connection):
         Listing(5, "test1", "test object", "location", 23, 2)
     ]
 
-    
+
+    # assert all_listings[0].availability  == []
+
 
 
 def test_check_find(db_connection):

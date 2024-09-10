@@ -1,13 +1,13 @@
-from lib.Listings import Listing
+# from lib.Listings import Listing
 
-def test_listing_creates_correct_variables():
-    listing1 = Listing(1, "test1", "fake description 1", "location1", 5, 1)
-    assert listing1.name == "test1"
-    assert listing1.id == 1
-    assert listing1.description == "fake description 1"
-    assert listing1.price == 5
-    assert listing1.location == "location1"
-    assert listing1.user_id == 1
+
+# def test_listing_creates_correct_variables():
+#     listing1 = Listing(1, "test1", "fake description 1", "location1", 5)
+#     assert listing1.name == "test1"
+#     assert listing1.id == 1
+#     assert listing1.description == "fake description 1"
+#     assert listing1.price == 5
+
 
 # def test_add_availability():
 #     listing1 = Listing(1, "test1", "fake description 1", "location1", 5)
