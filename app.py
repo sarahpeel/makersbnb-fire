@@ -3,6 +3,8 @@ from flask import Flask, request, redirect, session, render_template
 from lib.database_connection import get_flask_database_connection
 from lib.user_repository import UserRepository
 from lib.User import User
+from lib.Listings import Listing
+from lib.ListingsRepository import ListingRepository
 
 # Create a new Flask app
 app = Flask(__name__)
@@ -43,6 +45,29 @@ def post_user():
     user_id = user_repo.create_new_user(user)
     session['user_id'] = user_id
     return redirect("/registersuccess")
+
+@app.route('/register_a_space', methods=['GET'])
+def get_a_space():
+    connection = get_flask_database_connection(app)
+    return render_template('register_a_space.html')
+
+
+@app.route('/register_a_space', methods=['POST'])
+def post_a_space():
+    connection = get_flask_database_connection(app)
+    listings_repo = ListingRepository(connection)
+
+    space_name = request.form['name']
+    description = request.form['description']
+    location = request.form['location']
+    price = request.form['price']
+
+    new_listing = Listing(None, space_name, description, location, price)
+    listings_repo.add_listing(new_listing)
+
+    return render_template('listingsuccess.html', listing=new_listing)
+
+
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
