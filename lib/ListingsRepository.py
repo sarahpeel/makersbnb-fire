@@ -8,8 +8,11 @@ class ListingRepository:
 
 
     def add_listing(self, listing):
-        self._connection.execute('INSERT INTO listings (name, description, location, price, user_id) VALUES (%s, %s, %s, %s, %s)', [listing.name, listing.description, listing.location, listing.price, listing.user_id])
-
+        listing.price = int(listing.price)
+        if listing.price >= 0:
+            self._connection.execute('INSERT INTO listings (name, description, location, price, user_id) VALUES (%s, %s, %s, %s, %s)', [listing.name, listing.description, listing.location, listing.price, listing.user_id])
+        else:
+            raise Exception("Please enter a valid price")
 
     def all(self):
         rows = self._connection.execute('SELECT * FROM listings')
