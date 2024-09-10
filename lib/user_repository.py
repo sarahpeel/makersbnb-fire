@@ -27,3 +27,4 @@ class UserRepository:
             'SELECT * from users WHERE id = %s', [user_id])
         row = rows[0]
         return User(row["id"], row["username"])
+    
