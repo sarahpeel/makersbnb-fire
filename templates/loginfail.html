@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Register - Success </title>
+        <title>Login - Fail </title>
 
         <!--
             Head to https://github.com/makersacademy/web-applications-in-python/blob/main/pills/loading_css_or_static_files.md
@@ -10,8 +10,12 @@
         <link rel="stylesheet" href="/static/style.css" >
     </head>
     <body>
-        <p class = "t-title">You have successfully registered.</p>
-        <p class = "t-username">Your username: {{user.username}}</p>
-        <a href="/register_a_space">Register a space</a>
+        <p>You have not logged in.</p>
+        {% if errors %}
+                <div class ="t-errors">
+                    Your submission contained errors: {{errors}}
+                </div>
+        {% endif %}
+        <a href="/register">Register an account</a><br><br>
     </body>
 </html>
