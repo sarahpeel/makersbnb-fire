@@ -22,6 +22,24 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 def get_index():
     return render_template('index.html')
 
+@app.route('/login', methods=['GET'])
+def get_login():
+    return render_template('login.html')
+
+
+@app.route('/login', methods=['POST'])
+def post_login():
+    connection = get_flask_database_connection(app)
+    user_repo = UserRepository(connection)
+    username = request.form['username']
+    users = user_repo.all()
+    for user in users:
+        if user.username == username:
+            print("Successful login")
+            session['user_id'] = user.id
+            return redirect("/registersuccess")
+    return redirect('/register')
+
 @app.route('/register', methods=['GET'])
 def get_register():
     return render_template('register.html')
@@ -34,8 +52,8 @@ def get_registersuccess():
         return redirect('/register')
     elif 'user_id' in session:
         user_id = session['user_id']
-    user = user_repo.find(user_id)
-    return render_template('registersuccess.html', user=user)
+        user = user_repo.find(user_id)
+        return render_template('registersuccess.html', user=user)
 
 @app.route('/register', methods=['POST'])
 def post_user():
@@ -44,12 +62,15 @@ def post_user():
     username = request.form['username']
     user = User(None, username) 
     user_id = user_repo.create_new_user(user)
-    session['user_id'] = user_id
     return redirect("/registersuccess")
 
 @app.route('/register_a_space', methods=['GET'])
 def get_a_space():
     connection = get_flask_database_connection(app)
+    if 'user_id' not in session:
+        return redirect('/register')
+    elif 'user_id' in session:
+        user_id = session['user_id']
     return render_template('register_a_space.html')
 
 
@@ -57,16 +78,20 @@ def get_a_space():
 def post_a_space():
     connection = get_flask_database_connection(app)
     listings_repo = ListingRepository(connection)
+    if 'user_id' not in session:
+        return redirect('/register')
+    elif 'user_id' in session:
+        user_id = session['user_id']
 
-    space_name = request.form['name']
-    description = request.form['description']
-    location = request.form['location']
-    price = request.form['price']
+        space_name = request.form['name']
+        description = request.form['description']
+        location = request.form['location']
+        price = request.form['price']
 
-    new_listing = Listing(None, space_name, description, location, price)
-    listings_repo.add_listing(new_listing)
+        new_listing = Listing(None, space_name, description, location, price, user_id)
+        listings_repo.add_listing(new_listing)
 
-    return render_template('listingsuccess.html', listing=new_listing)
+        return render_template('listingsuccess.html', listing=new_listing)
 
 @app.route('/listings', methods=['GET'])
 def get_listings():
