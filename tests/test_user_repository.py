@@ -1,4 +1,4 @@
-from lib.user import User
+from lib.User import User
 from lib.user_repository import UserRepository
 
 """
