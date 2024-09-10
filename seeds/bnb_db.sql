@@ -17,9 +17,9 @@ CREATE TABLE listings (
     name text,
     description text,
     location text,
-    availability int ARRAY,
+    -- availability int ARRAY,
     price int,
-    occupied boolean,
+    -- occupied boolean,
     user_id int,
     constraint fk_user foreign key(user_id)
     references users(id)
@@ -30,3 +30,10 @@ CREATE TABLE listings (
 INSERT INTO users (username) VALUES ('Catherine');
 INSERT INTO users (username) VALUES ('Sarah');
 INSERT INTO users (username) VALUES ('Andy');
+
+
+
+INSERT INTO listings (name, description, location, price, user_id) VALUES ('Blackpool Tower', 'Really high', 'Blackpool', 25, 1);
+INSERT INTO listings (name, description, location, price, user_id) VALUES ('London Eye', 'Really round', 'London', 150, 1);
+INSERT INTO listings (name, description, location, price, user_id) VALUES ('Windsor Castle', 'Really old', 'Windsor', 1150, 2);
+INSERT INTO listings (name, description, location, price, user_id) VALUES ('SS Great Britain', 'Really wet', 'Bristol', 180, 3);
