@@ -3,6 +3,8 @@ from flask import Flask, request, redirect, session, render_template
 from lib.database_connection import get_flask_database_connection
 from lib.user_repository import UserRepository
 from lib.User import User
+from lib.ListingsRepository import ListingRepository
+from lib.Listings import Listing
 
 # Create a new Flask app
 app = Flask(__name__)
@@ -43,6 +45,15 @@ def post_user():
     user_id = user_repo.create_new_user(user)
     session['user_id'] = user_id
     return redirect("/registersuccess")
+
+@app.route('/listings', methods=['GET'])
+def get_listings():
+    connection = get_flask_database_connection(app)
+    listings_repo = ListingRepository(connection)
+    listings = listings_repo.all()
+    return render_template('listings.html', listings=listings)
+
+
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
