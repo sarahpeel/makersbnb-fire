@@ -37,3 +37,22 @@ p {
 .boxtext {
     font-size: 15px;
 }
+
+.split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top:0;
+    overflow-x:hidden;
+    padding-top:20px;
+}
+
+
+.left {
+    left: 0;
+    }
+
+.right {
+    right: 0;
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Requests</title>
+
+        <link rel="stylesheet" href="/static/style.css" >
+    </head>
+<!-- TODO split columns on page -->
+    <body>
+        <h1>Requests I've Made </h1>
+        {% for listing in listings %}
+        <div class="ListingsBox">
+            <p class="boxtext">
+                Requested Listing: {{listing.name}}
+            </p>
+            <p class="boxtext">
+                Description: {{listing.description}}
+            </p>
+            <p class="boxtext">
+                Location: {{listing.location}}
+            </p>
+            <p class="boxtext">
+                Price per night: £{{listing.price}}
+            </p>
+            </div>
+
+        {% endfor %}
+    </body>
+
+    <body>
+        <h1>Requests I've Received</h1>
+        {% for listing in listings %}
+        <div class="ListingsBox">
+            <p class="boxtext">
+                Requested Listing: {{listing.name}}
+            <p class="boxtext">
+                Requested By: Dewi!
+            </p>
+            <p class="boxtext">
+                Description: {{listing.description}}
+            </p>
+            <p class="boxtext">
+                Location: {{listing.location}}
+            </p>
+            <p class="boxtext">
+                Price per night: £{{listing.price}}
+            </p>
+            <form action="/accept_booking" method="POST">
+            <input type="submit" value="Accept">
+            </form>
+            <form action="/reject_booking" method="POST">
+            <input type="submit" value="Reject">
+            </form>
+            </div>
+        </div>
+        {% endfor %}
+    </body>
+    </div>
+</html>
