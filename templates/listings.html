@@ -24,7 +24,16 @@
             </p>
             <p class="boxtext">
                 Price per night: £{{listing.price}}
-            </p>
+            </p><br><br>
+<form action="/listings" method="POST">
+    <p class="boxtext">
+        <label for="requestdate">
+            Request date:
+        </label>
+        <input type="date" name="requestdate" id="requestdate"><br><br> 
+        <input type="submit" value="Request">
+    </p>
+</form>
         </div>
         {% endfor %}
     </body>

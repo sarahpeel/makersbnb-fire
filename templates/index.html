@@ -3,15 +3,25 @@
     <head>
         <title>MakersBnB</title>
 
-        <!--
-            Head to https://github.com/makersacademy/web-applications-in-python/blob/main/pills/loading_css_or_static_files.md
-            If you're wondering how the CSS file below is being loaded.
-        -->
         <link rel="stylesheet" href="/static/style.css" >
     </head>
         <body>
+            <div class="topnav">
+                <a class="active" href="/index">Home</a>
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+                <a href="/listings">Listings</a>
+                <a href="/locations">Locations</a>
+                <!-- <div class="dropdown">
+                      <button class="dropbtn">My Account</button>
+                      <div class="dropdown-content">
+                        <a href="#">My Listings</a>
+                        <a href="#">My Bookings</a>
+                      </div>
+                </div> -->
+                <a href="/logout">Logout</a>
+            </div>
             <h1>MakersBnB</h1>
-            <a href="/register">Register</a><br><br>
-            <a href="/listings">See Listings</a>
+            <p>Prepare for your next adventure</p>
         </body>
 </html>
