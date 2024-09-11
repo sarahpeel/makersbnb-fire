@@ -1,136 +1,146 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/static/style.css" >
-        <title>Website</title>
-        <style>
-            .dropdown {
-                position: relative;
-                display: inline-block;
-            }
-    
-            .dropbtn {
-                background-color: #4CAF50;
-                color: white;
-                padding: 16px;
-                font-size: 16px;
-                border: none;
-                cursor: pointer;
-            }
-    
-            .dropdown-content {
-                display: none;
-                position: absolute;
-                background-color: #f9f9f9;
-                min-width: 160px;
-                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-                z-index: 1;
-            }
-    
-            .dropdown-content a {
-                color: black;
-                padding: 12px 16px;
-                text-decoration: none;
-                display: block;
-            }
-    
-            .dropdown-content a:hover {
-                background-color: #f1f1f1;
-            }
-    
-            .dropdown:hover .dropdown-content {
-                display: block;
-            }
-    
-            .dropdown:hover .dropbtn {
-                background-color: #3e8e41;
-            }
-    
-            .button {
-                background-color: #4CAF50;
-                color: white;
-                padding: 16px;
-                font-size: 16px;
-                border: none;
-                cursor: pointer;
-                margin: 10px;
-            }
-    
-            .button:hover {
-                background-color: #3e8e41;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="dropdown">
-            <button class="dropbtn">My Account</button>
-            <div class="dropdown-content">
-                <a href="requests-made.html">Requests Made</a>
-                <a href="requests-received.html">Requests Received</a>
-            </div>
-        </div>  
-    
-        <a href="/index"><button class="button">Homepage</button></a>
-        <a href="/login"><button class="button">Log in</button></a>
-        <a href="/register"><button class="button">Register</button></a>
-        <a href="/listings"><button class="button">Listings</button></a>
-    </body>
-    <head>
-        <title>My Requests</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css" >
+    <title>Website</title>
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
 
-        <link rel="stylesheet" href="/static/style.css" >
-    </head>
-<!-- TODO split columns on page -->
-    <body>
-        <h1>Requests I've Made </h1>
-        {% for listing in listings %}
-        <div class="ListingsBox">
-            <p class="boxtext">
-                Requested Listing: {{listing.name}}
-            </p>
-            <p class="boxtext">
-                Description: {{listing.description}}
-            </p>
-            <p class="boxtext">
-                Location: {{listing.location}}
-            </p>
-            <p class="boxtext">
-                Price per night: £{{listing.price}}
-            </p>
-            </div>
+        .dropbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
 
-        {% endfor %}
-    </body>
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
 
-    <body>
-        <h1>Requests I've Received</h1>
-        {% for listing in listings %}
-        <div class="ListingsBox">
-            <p class="boxtext">
-                Requested Listing: {{listing.name}}
-            <p class="boxtext">
-                Requested By: Dewi!
-            </p>
-            <p class="boxtext">
-                Description: {{listing.description}}
-            </p>
-            <p class="boxtext">
-                Location: {{listing.location}}
-            </p>
-            <p class="boxtext">
-                Price per night: £{{listing.price}}
-            </p>
-            <form action="/accept_booking" method="POST">
-            <input type="submit" value="Accept">
-            </form>
-            <form action="/reject_booking" method="POST">
-            <input type="submit" value="Reject">
-            </form>
-            </div>
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .button:hover {
+            background-color: #3e8e41;
+        }
+
+        /* New styles to split into two columns */
+        .column-container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        /* .column {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        } */
+
+        .ListingsBox {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            padding: 30px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            width: 75%;
+        }
+
+        .boxtext {
+            margin: 0;
+            padding: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="dropdown">
+        <button class="dropbtn">My Account</button>
+        <div class="dropdown-content">
+            <a href="requests-made.html">Requests Made</a>
+            <a href="requests-received.html">Requests Received</a>
         </div>
-        {% endfor %}
-    </body>
+    </div>  
+
+    <a href="/index"><button class="button">Homepage</button></a>
+    <a href="/login"><button class="button">Log in</button></a>
+    <a href="/register"><button class="button">Register</button></a>
+    <a href="/listings"><button class="button">Listings</button></a>
+
+    <!-- Split content into two columns -->
+    <div class="column-container">
+        <!-- Column 1: Requests I've Made -->
+        <div class="column">
+            <h1>Requests I've Made</h1>
+            {% for listing in listings %}
+            <div class="ListingsBox">
+                <p class="boxtext">Requested Listing: {{listing.name}}</p>
+                <p class="boxtext">Description: {{listing.description}}</p>
+                <p class="boxtext">Location: {{listing.location}}</p>
+                <p class="boxtext">Price per night: £{{listing.price}}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Column 2: Requests I've Received -->
+        <div class="column">
+            <h1>Requests I've Received</h1>
+            {% for listing in listings %}
+            <div class="ListingsBox">
+                <p class="boxtext">Requested Listing: {{listing.name}}</p>
+                <p class="boxtext">Requested By: Dewi!</p>
+                <p class="boxtext">Description: {{listing.description}}</p>
+                <p class="boxtext">Location: {{listing.location}}</p>
+                <p class="boxtext">Price per night: £{{listing.price}}</p>
+                <form action="/accept_booking" method="POST">
+                    <input type="submit" value="Accept">
+                </form>
+                <form action="/reject_booking" method="POST">
+                    <input type="submit" value="Reject">
+                </form>
+            </div>
+            {% endfor %}
+        </div>
     </div>
+</body>
 </html>
