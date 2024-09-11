@@ -1,10 +1,10 @@
 -- First, we must delete (drop) all our tables
+DROP TABLE IF EXISTS bookings;
+DROP SEQUENCE IF EXISTS bookings_id_seq;
 DROP TABLE IF EXISTS listings;
 DROP SEQUENCE IF EXISTS listings_id_seq;
 DROP TABLE IF EXISTS users;
 DROP SEQUENCE IF EXISTS users_id_seq;
-DROP TABLE IF EXISTS bookings;
-DROP SEQUENCE IF EXISTS bookings_id_seq;
 
 
 -- Create the table without the foreign key first.
