@@ -1,6 +1,83 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/static/style.css" >
+        <title>Website</title>
+        <style>
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+    
+            .dropbtn {
+                background-color: #4CAF50;
+                color: white;
+                padding: 16px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+            }
+    
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+    
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+    
+            .dropdown-content a:hover {
+                background-color: #f1f1f1;
+            }
+    
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+    
+            .dropdown:hover .dropbtn {
+                background-color: #3e8e41;
+            }
+    
+            .button {
+                background-color: #4CAF50;
+                color: white;
+                padding: 16px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+                margin: 10px;
+            }
+    
+            .button:hover {
+                background-color: #3e8e41;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="dropdown">
+            <button class="dropbtn">My Account</button>
+            <div class="dropdown-content">
+                <a href="requests-made.html">Requests Made</a>
+                <a href="requests-received.html">Requests Received</a>
+            </div>
+        </div>  
+    
+        <a href="/index"><button class="button">Homepage</button></a>
+        <a href="/login"><button class="button">Log in</button></a>
+        <a href="/register"><button class="button">Register</button></a>
+        <a href="/listings"><button class="button">Listings</button></a>
+    </body>
+    <head>
         <title>Register</title>
 
         <!--
