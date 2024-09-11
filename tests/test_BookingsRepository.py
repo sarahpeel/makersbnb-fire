@@ -42,3 +42,33 @@ def test_find_multiple_bookings_by_listing_user(db_connection):
     result = repo.find_booking_by_listing_user(1)
 
     assert result == [Listing(1, 'Blackpool Tower', 'Really high', 'Blackpool', 25, 1, [Booking(1, 1, 2, listing1_start, listing1_end, 'requested')]), Listing(2, 'London Eye', 'Really round', 'London', 150, 1, [Booking(2, 2, 3, listing2_start, listing2_end, 'confirmed')])]
+
+def test_booking_not_available(db_connection):
+    db_connection.seed("seeds/bnb_db.sql")
+    repo = BookingRepository(db_connection)
+
+    x = datetime.date(2023, 6, 16)
+    y = datetime.date(2023, 6, 16)
+    result = repo.is_listing_available(2, x, y)
+    assert result == False
+
+def test_booking_is_available(db_connection):
+    db_connection.seed("seeds/bnb_db.sql")
+    repo = BookingRepository(db_connection)
+
+    x = datetime.date(2023, 6, 16)
+    y = datetime.date(2023, 6, 16)
+    result = repo.is_listing_available(1, x, y)
+    assert result == True
+
+def test_create_booking(db_connection):
+    db_connection.seed("seeds/bnb_db.sql")
+    repo = BookingRepository(db_connection)
+
+    x = datetime.date(2023, 12, 16)
+    y = datetime.date(2023, 12, 16)
+    
+    create_result = repo.create_booking(4, 1, x, y)
+    result = repo.find_booking_by_listing(4)
+    assert result == [Booking(4, 4, 1, x, y, 'requested')]
+    assert create_result == "Booking submitted successfully"

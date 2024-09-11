@@ -42,15 +42,17 @@ class BookingRepository():
 
     
     def is_listing_available(self, listing_id, start_date, end_date):
-        rows = self._connection.execute('SELECT * FROM bookings WHERE listing_id = %s AND start_date <= %s AND end_date >= %s AND status = "confirmed"', [listing_id, start_date, end_date])
+        status = "confirmed"
+        rows = self._connection.execute('SELECT * FROM bookings WHERE listing_id = %s AND start_date <= %s AND end_date >= %s AND status = %s', [listing_id, start_date, end_date, status])
         
         if len(rows) > 0:
             return False
         return True
     
 
-    def create_booking(self, requester_id, listing_id, start_date, end_date):
+    def create_booking(self, listing_id, requester_id, start_date, end_date):
+        status = "requested"
         if self.is_listing_available(listing_id, start_date, end_date):
-            self._connection.execute('INSERT INTO Bookings (listing_id, requester_id, start_date, end_date, status) VALUES ( %s, %s, %s, %s, "requested")', [listing_id, requester_id, start_date, end_date])
+            self._connection.execute('INSERT INTO Bookings (listing_id, requester_id, start_date, end_date, status) VALUES ( %s, %s, %s, %s, %s)', [listing_id, requester_id, start_date, end_date, status])
             return "Booking submitted successfully"
         return "There was an error submitting your booking. Try again later."
