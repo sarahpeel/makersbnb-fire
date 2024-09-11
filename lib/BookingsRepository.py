@@ -6,7 +6,7 @@ class BookingRepository():
         self._connection = connection
         self._connection.connect()
 
-    def find_booking(self, listing_id):
+    def find_booking_by_listing(self, listing_id):
         rows = self._connection.execute('SELECT * FROM bookings WHERE listing_id = %s', [listing_id])
         
         bookings = []
@@ -19,3 +19,4 @@ class BookingRepository():
         
     def is_available(self, booking):
         pass
+
