@@ -11,17 +11,4 @@ class User:
         return f'User({self.id}, {self.username})'
         
 
-    def is_valid(self):
-        if self.username == None or self.username == "":
-            return False
-        return True
-
-
-    def generate_errors(self):
-        errors = []
-        if self.username == None or self.username == "":
-            errors.append("Username can't be blank")
-        if len(errors) == 0:
-            return None
-        else:
-            return errors
+    

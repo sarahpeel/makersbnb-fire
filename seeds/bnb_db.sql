@@ -1,4 +1,6 @@
 -- First, we must delete (drop) all our tables
+DROP TABLE IF EXISTS bookings;
+DROP SEQUENCE IF EXISTS bookings_id_seq;
 DROP TABLE IF EXISTS listings;
 DROP SEQUENCE IF EXISTS listings_id_seq;
 DROP TABLE IF EXISTS users;
@@ -26,6 +28,16 @@ CREATE TABLE listings (
         on delete cascade
 );
 
+CREATE TABLE bookings (
+    id SERIAL PRIMARY KEY,
+    listing_id INT,
+    requester_id INT,
+    start_date DATE,
+    end_date DATE,
+    status TEXT, 
+    CONSTRAINT fk_listing FOREIGN KEY(listing_id) REFERENCES listings(id) ON DELETE CASCADE,
+    CONSTRAINT fk_user FOREIGN KEY(requester_id) REFERENCES users(id) ON DELETE CASCADE
+);
 
 INSERT INTO users (username) VALUES ('Catherine');
 INSERT INTO users (username) VALUES ('Sarah');
@@ -37,3 +49,8 @@ INSERT INTO listings (name, description, location, price, user_id) VALUES ('Blac
 INSERT INTO listings (name, description, location, price, user_id) VALUES ('London Eye', 'Really round', 'London', 150, 1);
 INSERT INTO listings (name, description, location, price, user_id) VALUES ('Windsor Castle', 'Really old', 'Windsor', 1150, 2);
 INSERT INTO listings (name, description, location, price, user_id) VALUES ('SS Great Britain', 'Really wet', 'Bristol', 180, 3);
+
+
+INSERT INTO bookings (listing_id, requester_id, start_date, end_date, status) VALUES (1, 2, '2023-09-10', '2023-09-12', 'requested');
+INSERT INTO bookings (listing_id, requester_id, start_date, end_date, status) VALUES (2, 3, '2023-06-15', '2023-06-20', 'confirmed');
+INSERT INTO bookings (listing_id, requester_id, start_date, end_date, status) VALUES (3, 1, '2023-12-10', '2023-12-10', 'requested');
