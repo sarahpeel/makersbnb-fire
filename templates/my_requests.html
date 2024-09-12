@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css" >
+    <title>FireBnB</title>
+
+
+</head>
+<body>
+    <div class="dropdown">
+        <button class="dropbtn">My Account</button>
+        <div class="dropdown-content">
+            <a href="/requests_made">Requests Made</a>
+            <a href="/requests_received">Requests Received</a>
+        </div>
+    </div>  
+
+    <a href="/index"><button class="button">Homepage</button></a>
+    <a href="/login"><button class="button">Log in</button></a>
+    <a href="/register"><button class="button">Register</button></a>
+    <a href="/listings"><button class="button">Listings</button></a>
+
+    <!-- Split content into two columns -->
+    <div class="column-container">
+        <!-- Column 1: Requests I've Made -->
+        <div class="column">
+            <h1>Requests I've Made</h1>
+            {% for listing in listings %}
+            <div class="ListingsBox">
+                <p class="boxtext">Requested Listing: {{listing.name}}</p>
+                <p class="boxtext">Description: {{listing.description}}</p>
+                <p class="boxtext">Location: {{listing.location}}</p>
+                <p class="boxtext">Price per night: £{{listing.price}}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Column 2: Requests I've Received -->
+        <div class="column">
+            <h1>Requests I've Received</h1>
+            {% for listing in listings %}
+            <div class="ListingsBox">
+                <p class="boxtext">Requested Listing: {{listing.name}}</p>
+                <p class="boxtext">Requested By: Dewi!</p>
+                <p class="boxtext">Description: {{listing.description}}</p>
+                <p class="boxtext">Location: {{listing.location}}</p>
+                <p class="boxtext">Price per night: £{{listing.price}}</p>
+                <form action="/accept_booking" method="POST">
+                    <input type="submit" value="Accept">
+                </form>
+                <form action="/reject_booking" method="POST">
+                    <input type="submit" value="Reject">
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

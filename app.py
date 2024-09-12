@@ -128,6 +128,34 @@ def get_listings():
     return render_template('listings.html', listings=listings)
 
 
+#TODO Actually make routes work
+# Vibes crew routes
+
+@app.route('/my_requests', methods=['GET'])
+def get_my_requests():
+    connection = get_flask_database_connection(app)
+    listings_repo = ListingRepository(connection)
+    listings = listings_repo.all()
+    requests = ["This", "is", "a", "placeholder"]
+    return render_template('my_requests.html', requests=requests, listings=listings)
+
+
+"""@app.route('/listings', methods=['POST'])
+def request_a_space():
+    connection = get_flask_database_connection(app)
+    booking_repo = BookingRepository(connection)
+    listing_repo = ListingRepository(connection)
+    user_id = session['user_id']
+
+    requests = booking_repo.find_requests(user_id)
+    listings = listing_repo.find()
+    # Insert code for requesting booking
+    
+    # if booking is True:
+        redirect('/my_requests', requests=requests, listings=listings) # Does not exist yet!
+    return('/listings')"""
+
+
 
 
 # These lines start the server if you run this file directly
