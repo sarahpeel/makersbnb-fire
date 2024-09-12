@@ -19,13 +19,19 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 #   ; open http://localhost:5001/index
 @app.route('/index', methods=['GET'])
 def get_index():
-    return render_template('index.html')
+    logged_in = True
+    if 'user_id' not in session:
+        logged_in = False
+    return render_template('index.html', logged_in= logged_in)
 
 @app.route('/login', methods=['GET'])
 def get_login():
+    logged_in = True
+    if 'user_id' not in session:
+        logged_in = False
     if 'user_id' in session:
         return redirect("/listings")
-    return render_template('login.html')
+    return render_template('login.html', logged_in=logged_in)
 
 
 @app.route('/login', methods=['POST'])
@@ -41,7 +47,6 @@ def post_login():
     users = user_repo.all()
     for user in users:
         if user.username == username:
-            print("Successful login")
             session['user_id'] = user.id
             return redirect("/loginsuccess")
     errors.append("Username has not been registered")
@@ -52,12 +57,15 @@ def post_login():
 def get_loginsuccess():
     connection = get_flask_database_connection(app)
     user_repo = UserRepository(connection)
+    logged_in = True
+    if 'user_id' not in session:
+        logged_in = False
     if 'user_id' not in session:
         return redirect('/login')
     elif 'user_id' in session:
         user_id = session['user_id']
         user = user_repo.find(user_id)
-        return render_template('loginsuccess.html', user=user)
+        return render_template('loginsuccess.html', user=user, logged_in = logged_in)
 
 @app.route('/loginfail', methods=['GET'])
 def get_loginfail():
@@ -155,7 +163,11 @@ def request_a_space():
         redirect('/my_requests', requests=requests, listings=listings) # Does not exist yet!
     return('/listings')"""
 
-
+@app.route('/logout')
+def logout():
+    # remove the user_id from the session if it's there
+    session.pop('user_id', None)
+    return render_template('logout.html')
 
 
 # These lines start the server if you run this file directly
