@@ -32,7 +32,9 @@
     <body>
         <h1>Current Listings</h1>
         {% for listing in listings %}
+    <form action="/listings" method="POST">
         <div class="ListingsBox">
+            <input type="hidden" name="listing_id" value={{listing.id}} />
             <p class="boxtext">
                 Property name: {{listing.name}}
             </p>
@@ -45,16 +47,16 @@
             <p class="boxtext">
                 Price per night: £{{listing.price}}
             </p><br><br>
-<form action="/listings" method="POST">
-    <p class="boxtext">
-        <label for="requestdate">
-            Request date:
-        </label>
-        <input type="date" name="requestdate" id="requestdate"><br><br> 
-        <input type="submit" value="Request">
-    </p>
-</form>
+
+            <p class="boxtext">
+                <label for="requestdate">
+                Request date:
+                </label>
+                <input type="date" name="requestdate" id="requestdate"><br><br> 
+                <input type="submit" value="Request">
+            </p>
         </div>
+    </form>
         {% endfor %}
     </body>
 </html>
