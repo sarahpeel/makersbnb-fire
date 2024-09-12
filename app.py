@@ -1,11 +1,13 @@
 import os
 from flask import Flask, request, redirect, session, render_template
 from lib.database_connection import get_flask_database_connection
+from datetime import datetime
 from lib.user_repository import UserRepository
 from lib.User import User
-
 from lib.Listings import Listing
 from lib.ListingsRepository import ListingRepository
+from lib.Bookings import Booking
+from lib.BookingsRepository import BookingRepository
 
 # Create a new Flask app
 app = Flask(__name__)
@@ -128,9 +130,6 @@ def get_listings():
     return render_template('listings.html', listings=listings)
 
 
-#TODO Actually make routes work
-# Vibes crew routes
-
 @app.route('/my_requests', methods=['GET'])
 def get_my_requests():
     connection = get_flask_database_connection(app)
@@ -140,20 +139,24 @@ def get_my_requests():
     return render_template('my_requests.html', requests=requests, listings=listings)
 
 
-"""@app.route('/listings', methods=['POST'])
+@app.route('/listings', methods=['POST'])
 def request_a_space():
     connection = get_flask_database_connection(app)
     booking_repo = BookingRepository(connection)
     listing_repo = ListingRepository(connection)
+
     user_id = session['user_id']
 
-    requests = booking_repo.find_requests(user_id)
-    listings = listing_repo.find()
-    # Insert code for requesting booking
+    request_date = request.form['requestdate']
+
+    listing_id = request.form['listing_id']
+
+    formatted_date = datetime.strptime(request_date, '%Y-%m-%d')
+
+    booking_repo.create_booking(listing_id, user_id, formatted_date, formatted_date)
     
-    # if booking is True:
-        redirect('/my_requests', requests=requests, listings=listings) # Does not exist yet!
-    return('/listings')"""
+    #  Redirect to requests page
+    return redirect('/listings')
 
 
 
