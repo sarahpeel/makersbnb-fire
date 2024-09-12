@@ -52,5 +52,7 @@ INSERT INTO listings (name, description, location, price, user_id) VALUES ('SS G
 
 
 INSERT INTO bookings (listing_id, requester_id, start_date, end_date, status) VALUES (1, 2, '2023-09-10', '2023-09-12', 'requested');
+INSERT INTO bookings (listing_id, requester_id, start_date, end_date, status) VALUES (1, 3, '2023-10-10', '2023-10-12', 'requested');
 INSERT INTO bookings (listing_id, requester_id, start_date, end_date, status) VALUES (2, 3, '2023-06-15', '2023-06-20', 'confirmed');
+INSERT INTO bookings (listing_id, requester_id, start_date, end_date, status) VALUES (2, 3, '2023-12-15', '2023-12-20', 'confirmed');
 INSERT INTO bookings (listing_id, requester_id, start_date, end_date, status) VALUES (3, 1, '2023-12-10', '2023-12-10', 'requested');
