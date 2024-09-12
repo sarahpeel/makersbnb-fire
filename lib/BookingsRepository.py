@@ -13,7 +13,7 @@ class BookingRepository():
         
         bookings = []
         for row in rows:
-            item = Booking(row['id'], row['listing_id'], row['requester_id'], row['start_date'], row['end_date'], row['status'])
+            item = Booking(row['id'], row['listing_id'], row['requester_id'], row['requester_name'],row['start_date'], row['end_date'], row['status'], row['listing_name'], row['price'])
 
             bookings.append(item)
 
@@ -24,12 +24,12 @@ class BookingRepository():
         
         bookings = []
         for row in rows:
-            item = Booking(row['id'], row['listing_id'], row['requester_id'], row['start_date'], row['end_date'], row['status'])
+            item = Booking(row['id'], row['listing_id'], row['requester_id'], row['requester_name'],row['start_date'], row['end_date'], row['status'], row['listing_name'], row['price'])
             bookings.append(item)
         return bookings
     
     def find_booking_by_listing_user(self, user_id):
-        rows = self._connection.execute('SELECT listings.id AS listings_id, listings.name, listings.description, listings.location, listings.price, listings.user_id, bookings.id AS bookings_id, bookings.listing_id, bookings.requester_id, bookings.start_date, bookings.end_date, bookings.status FROM bookings JOIN listings ON bookings.listing_id = listings.id WHERE listings.user_id = %s', [user_id])
+        rows = self._connection.execute('SELECT listings.id AS listings_id, listings.name, listings.description, listings.location, listings.price, listings.user_id, bookings.id AS bookings_id, bookings.listing_id, bookings.requester_id, bookings.requester_name, bookings.start_date, bookings.end_date, bookings.status, bookings.listing_name, bookings.price FROM bookings JOIN listings ON bookings.listing_id = listings.id WHERE listings.user_id = %s', [user_id])
 
         listings = []
 
@@ -44,7 +44,7 @@ class BookingRepository():
             bookings = []
             for row in rows:
                 if listing_id == row['listing_id']:
-                    item = Booking(row['bookings_id'], row['listing_id'], row['requester_id'], row['start_date'], row['end_date'], row['status'])
+                    item = Booking(row['bookings_id'], row['listing_id'], row['requester_id'], row['requester_name'],row['start_date'], row['end_date'], row['status'], row['listing_name'], row['price'])
                     bookings.append(item)
                 print(bookings)
 
@@ -66,10 +66,10 @@ class BookingRepository():
         return True
     
 
-    def create_booking(self, listing_id, requester_id, start_date, end_date):
+    def create_booking(self, listing_id, requester_id, requester_name, start_date, end_date, listing_name, price):
         status = "requested"
         if self.is_listing_available(listing_id, start_date, end_date):
-            self._connection.execute('INSERT INTO Bookings (listing_id, requester_id, start_date, end_date, status) VALUES ( %s, %s, %s, %s, %s)', [listing_id, requester_id, start_date, end_date, status])
+            self._connection.execute('INSERT INTO Bookings (listing_id, requester_id, requester_name, start_date, end_date, status, listing_name, price) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s)', [listing_id, requester_id, requester_name, start_date, end_date, status, listing_name, price])
             return "Booking submitted successfully"
         return "There was an error submitting your booking. Try again later."
     

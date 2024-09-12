@@ -38,12 +38,14 @@
             <p class="boxtext">
                 Property name: {{listing.name}}
             </p>
+            <input type="hidden" name="listing_name" value={{listing.name}} />
             <p class="boxtext">
                 Description: {{listing.description}}
             </p>
             <p class="boxtext">
                 Location: {{listing.location}}
             </p>
+            <input type="hidden" name="price" value={{listing.price}} />
             <p class="boxtext">
                 Price per night: £{{listing.price}}
             </p><br><br>

@@ -144,16 +144,21 @@ def request_a_space():
     connection = get_flask_database_connection(app)
     booking_repo = BookingRepository(connection)
     listing_repo = ListingRepository(connection)
+    user_repo = UserRepository(connection)
 
     user_id = session['user_id']
+    user = user_repo.find(user_id)
+    username = user.username
 
     request_date = request.form['requestdate']
 
     listing_id = request.form['listing_id']
+    listing_name = request.form['listing_name']
+    price = request.form['price']
 
     formatted_date = datetime.strptime(request_date, '%Y-%m-%d')
 
-    booking_repo.create_booking(listing_id, user_id, formatted_date, formatted_date)
+    booking_repo.create_booking(listing_id, user_id, username, formatted_date, formatted_date, listing_name, price)
     
     #  Redirect to requests page
     return redirect('/listings')
