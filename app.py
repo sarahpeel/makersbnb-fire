@@ -156,7 +156,6 @@ def get_listings():
 
 @app.route('/my_requests', methods=['GET'])
 def get_my_requests():
-
     logged_in = True
     if 'user_id' not in session:
         logged_in = False
