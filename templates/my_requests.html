@@ -50,11 +50,15 @@
                 <p class="boxtext">Start Date: {{booking.start_date}}</p>
                 <p class="boxtext">End Date: {{booking.end_date}}</p>
                 <p class="boxtext">Price per night: £{{booking.price}}</p>
-                <form action="/accept_booking" method="POST">
-                    <input type="submit" value="Accept">
+                <form action="/update_booking_status" method="POST">
+                    <input type="hidden" name="listing_id" value={{booking.listing_id}}>
+                    <input type="hidden" name="requester_id" value={{booking.requester_id}}>
+                    <button type="submit" name="action" value="Confirm">Confirm</button>
                 </form>
-                <form action="/reject_booking" method="POST">
-                    <input type="submit" value="Reject">
+                <form action="/update_booking_status" method="POST">
+                    <input type="hidden" name="listing_id" value={{booking.listing_id}}>
+                    <input type="hidden" name="requester_id" value={{booking.requester_id}}>
+                    <button type="submit" name="action" value="Denied">Deny</button>
                 </form>
             </div>
             {% endfor %}
