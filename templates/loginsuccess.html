@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/static/style.css" >
-        <title>FireBnB</title>
+        <title>Login - Success</title>
     </head>
     <body>
         <div class="dropdown">
@@ -24,17 +24,7 @@
         {% if logged_in == true %}
         <a href="/logout"><button class="button">Logout</button></a>
         {% endif %}
-    </body>
-    <head>
-        <title>Register - Success </title>
 
-        <!--
-            Head to https://github.com/makersacademy/web-applications-in-python/blob/main/pills/loading_css_or_static_files.md
-            If you're wondering how the CSS file below is being loaded.
-        -->
-        <link rel="stylesheet" href="/static/style.css" >
-    </head>
-    <body>
         <p class = "t-title">You have successfully logged in.</p>
         <p class = "t-username">Your username: {{user.username}}</p>
         <a href="/register_a_space">Register a space</a>
