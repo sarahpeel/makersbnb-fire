@@ -156,8 +156,8 @@ def get_listings():
 
 @app.route('/my_requests', methods=['GET'])
 def get_my_requests():
-  
-   logged_in = True
+
+    logged_in = True
     if 'user_id' not in session:
         logged_in = False
         return redirect('/register')
@@ -186,13 +186,60 @@ def get_my_requests():
 
     return render_template('my_requests.html', outgoing = outgoing, incoming = incoming, incoming_responded = incoming_responded, logged_in = logged_in)
 
+# @app.route('/requests_made', methods=['GET'])
+# def requests_made_redirect():
+#     return redirect('/my_requests')
+
+# @app.route('/requests_received', methods=['GET'])
+# def requests_received_redirect():
+#     return redirect('/my_requests')
+
+
 @app.route('/requests_made', methods=['GET'])
-def requests_made_redirect():
-    return redirect('/my_requests')
+def requests_made_page():
+    logged_in = True
+    if 'user_id' not in session:
+        logged_in = False
+        return redirect('/register')
+    elif 'user_id' in session:
+        user_id = session['user_id']
+        connection = get_flask_database_connection(app)
+        repo = BookingRepository(connection)
+        outgoing = repo.find_booking_by_requester_id(user_id)
+
+    return render_template('requests_made.html', outgoing = outgoing, logged_in = logged_in)
 
 @app.route('/requests_received', methods=['GET'])
-def requests_received_redirect():
-    return redirect('/my_requests')
+def requests_received_page():
+    logged_in = True
+    if 'user_id' not in session:
+        logged_in = False
+        return redirect('/register')
+    elif 'user_id' in session:
+        user_id = session['user_id']
+        connection = get_flask_database_connection(app)
+        repo = BookingRepository(connection)
+        
+        incoming = []
+        _incoming = repo.find_booking_by_listing_user(user_id)
+        for entry in _incoming:
+            for subentry in entry.bookings:
+                if subentry.status == "requested":
+                    item = subentry
+                    incoming.append(item)
+
+        incoming_responded = []
+        _incoming = repo.find_booking_by_listing_user(user_id)
+        for entry in _incoming:
+            for subentry in entry.bookings:
+                if subentry.status != "requested":
+                    item = subentry
+                    incoming_responded.append(item)
+
+    return render_template('requests_received.html', incoming = incoming, incoming_responded = incoming_responded, logged_in = logged_in )
+
+
+
 
 @app.route('/listings', methods=['POST'])
 def request_a_space():

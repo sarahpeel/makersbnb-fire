@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css" >
+    <title>FireBnB</title>
+
+
+</head>
+<body>
+    <div class="dropdown">
+        <button class="dropbtn">My Account</button>
+        <div class="dropdown-content">
+            <a href="/requests_made">Requests Made</a>
+            <a href="/requests_received">Requests Received</a>
+        </div>
+    </div>  
+
+    <a href="/index"><button class="button">Homepage</button></a>
+    {% if logged_in == false %}
+    <a href="/login"><button class="button">Log in</button></a>
+    <a href="/register"><button class="button">Register</button></a>
+    {% endif %}
+    <a href="/listings"><button class="button">Listings</button></a>
+    {% if logged_in == true %}
+    <a href="/logout"><button class="button">Logout</button></a>
+    {% endif %}
+
+    <!-- Split content into two columns -->
+    <div class="column-container">
+        <!-- Column 1: Requests I've Made -->
+        <div class="column">
+            <h1>Requests I've Received</h1>
+            {% for booking in incoming %}
+            <div class="ListingsBox">
+                <p class="boxtext">Requested Listing: {{booking.listing_name}}</p>
+                <p class="boxtext">Requested By: {{booking.requester_name}}</p>
+                <p class="boxtext">Request Status: {{booking.status}}</p>
+                <p class="boxtext">Start Date: {{booking.start_date}}</p>
+                <p class="boxtext">End Date: {{booking.end_date}}</p>
+                <p class="boxtext">Price per night: £{{booking.price}}</p>
+                <form action="/update_booking_status" method="POST">
+                    <input type="hidden" name="listing_id" value={{booking.listing_id}}>
+                    <input type="hidden" name="requester_id" value={{booking.requester_id}}>
+                    <button type="submit" name="action" value="Confirm">Confirm</button>
+                </form>
+                <form action="/update_booking_status" method="POST">
+                    <input type="hidden" name="listing_id" value={{booking.listing_id}}>
+                    <input type="hidden" name="requester_id" value={{booking.requester_id}}>
+                    <button type="submit" name="action" value="Denied">Deny</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Column 2: Requests I've responded to -->
+        <div class="column">
+
+            <h1>Requests I've Responded To</h1>
+            {% for booking in incoming_responded %}
+            <div class="ListingsBox">
+                <p class="boxtext">Requested Listing: {{booking.listing_name}}</p>
+                <p class="boxtext">Requested By: {{booking.requester_name}}</p>
+                <p class="boxtext">Request Status: {{booking.status}}</p>
+                <p class="boxtext">Start Date: {{booking.start_date}}</p>
+                <p class="boxtext">End Date: {{booking.end_date}}</p>
+                <p class="boxtext">Price per night: £{{booking.price}}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
