@@ -167,6 +167,14 @@ def get_my_requests():
 
     return render_template('my_requests.html', outgoing = outgoing, incoming = incoming, incoming_responded = incoming_responded)
 
+@app.route('/requests_made', methods=['GET'])
+def requests_made_redirect():
+    return redirect('/my_requests')
+
+@app.route('/requests_received', methods=['GET'])
+def requests_received_redirect():
+    return redirect('/my_requests')
+
 
 @app.route('/listings', methods=['POST'])
 def request_a_space():
