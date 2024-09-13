@@ -71,17 +71,26 @@ def get_loginsuccess():
 
 @app.route('/loginfail', methods=['GET'])
 def get_loginfail():
-    return render_template('loginfail.html')
+    logged_in = True
+    if 'user_id' not in session:
+        logged_in = False
+    return render_template('loginfail.html', logged_in = logged_in)
 
 @app.route('/register', methods=['GET'])
 def get_register():
+    logged_in = True
+    if 'user_id' not in session:
+        logged_in = False
     if 'user_id' in session:
         return redirect("/listings")
-    return render_template('register.html')
+    return render_template('register.html', logged_in = logged_in)
 
 @app.route('/registerfail', methods=['GET'])
 def get_registerfail():
-    return render_template('registerfail.html')
+    logged_in = True
+    if 'user_id' not in session:
+        logged_in = False
+    return render_template('registerfail.html', logged_in = logged_in)
 
 
 @app.route('/register', methods=['POST'])
@@ -107,10 +116,12 @@ def post_user():
 @app.route('/register_a_space', methods=['GET'])
 def get_a_space():
     connection = get_flask_database_connection(app)
+    logged_in = True
     if 'user_id' not in session:
+        logged_in = False
         return redirect('/register')
     elif 'user_id' in session:
-        return render_template('register_a_space.html')
+        return render_template('register_a_space.html', logged_in = logged_in)
 
 
 @app.route('/register_a_space', methods=['POST'])
@@ -134,17 +145,27 @@ def post_a_space():
 def get_listings():
     connection = get_flask_database_connection(app)
     listings_repo = ListingRepository(connection)
+
+    logged_in = True
+    if 'user_id' not in session:
+        logged_in = False
+    
     listings = listings_repo.all()
-    return render_template('listings.html', listings=listings)
+    return render_template('listings.html', listings=listings, logged_in = logged_in)
 
 
 @app.route('/my_requests', methods=['GET'])
 def get_my_requests():
     connection = get_flask_database_connection(app)
     listings_repo = ListingRepository(connection)
+
+    logged_in = True
+    if 'user_id' not in session:
+        logged_in = False
+
     listings = listings_repo.all()
     requests = ["This", "is", "a", "placeholder"]
-    return render_template('my_requests.html', requests=requests, listings=listings)
+    return render_template('my_requests.html', requests=requests, listings=listings, logged_in = logged_in)
 
 
 @app.route('/listings', methods=['POST'])
@@ -175,7 +196,11 @@ def request_a_space():
 def logout():
     # remove the user_id from the session if it's there
     session.pop('user_id', None)
-    return render_template('logout.html')
+
+    logged_in = True
+    if 'user_id' not in session:
+        logged_in = False
+    return render_template('logout.html', logged_in = logged_in)
 
 
 # These lines start the server if you run this file directly

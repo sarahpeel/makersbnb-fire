@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/static/style.css" >
-        <title>FireBnB</title>
+        <title>Login</title>
     </head>
     <body>
         <div class="dropdown">
@@ -24,17 +24,7 @@
         {% if logged_in == true %}
         <a href="/logout"><button class="button">Logout</button></a>
         {% endif %}
-    </body>
-    <head>
-        <title>Register</title>
 
-        <!--
-            Head to https://github.com/makersacademy/web-applications-in-python/blob/main/pills/loading_css_or_static_files.md
-            If you're wondering how the CSS file below is being loaded.
-        -->
-        <link rel="stylesheet" href="/static/style.css" >
-    </head>
-    <body>
         <h1>Login</h1>
         <p>Provide the following details to log into your account:</p>
         <form action="/login" method="POST">
@@ -45,7 +35,7 @@
                 <input type="text" name="username" id="username"> 
             </p>
             <p>
-                <input type="submit" value="Login">
+                <input type="submit" value="Login" id="login_btn">
             </p>
         </form>
     </body>
