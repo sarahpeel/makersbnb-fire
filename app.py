@@ -6,6 +6,9 @@ from lib.User import User
 
 from lib.Listings import Listing
 from lib.ListingsRepository import ListingRepository
+from lib.BookingsRepository import BookingRepository
+from lib.Bookings import Booking
+
 
 # Create a new Flask app
 app = Flask(__name__)
@@ -139,6 +142,40 @@ def get_my_requests():
     requests = ["This", "is", "a", "placeholder"]
     return render_template('my_requests.html', requests=requests, listings=listings)
 
+@app.route('/my_requests', methods=['POST'])
+def confirm_request():
+    connection = get_flask_database_connection(app)
+    bookings_repo = BookingRepository(connection)
+    if 'user_id' not in session:
+        return redirect('/register')
+    elif 'user_id' in session:
+        user_id = session['user_id']
+        bookings = bookings_repo.change_status_from_requested_to_confirmed()
+
+
+
+
+
+
+def post_a_space():
+    connection = get_flask_database_connection(app)
+    listings_repo = ListingRepository(connection)
+    if 'user_id' not in session:
+        return redirect('/register')
+    elif 'user_id' in session:
+        user_id = session['user_id']
+        space_name = request.form['name']
+        description = request.form['description']
+        location = request.form['location']
+        price = request.form['price']
+        new_listing = Listing(None, space_name, description, location, price, user_id)
+        listings_repo.add_listing(new_listing)
+
+        return render_template('listingsuccess.html', listing=new_listing)
+
+
+
+
 
 """@app.route('/listings', methods=['POST'])
 def request_a_space():
@@ -162,4 +199,4 @@ def request_a_space():
 # They also start the server configured to use the test database
 # if started in test mode.
 if __name__ == '__main__':
-    app.run(debug=True, port=int(os.environ.get('PORT', 5001)))
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get('PORT', 5001)))
