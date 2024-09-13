@@ -7,6 +7,7 @@
     <title>FireBnB</title>
 </head>
 <body>
+    {% if logged_in == true %}
     <div class="dropdown">
         <button class="dropbtn">My Account</button>
         <div class="dropdown-content">
@@ -14,7 +15,7 @@
             <a href="/requests_received">Requests Received</a>
         </div>
     </div>  
-
+    {% endif %}
     <a href="/index"><button class="button">Homepage</button></a>
         {% if logged_in == false %}
         <a href="/login"><button class="button">Log in</button></a>
