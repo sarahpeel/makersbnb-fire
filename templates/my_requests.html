@@ -32,12 +32,13 @@
         <!-- Column 1: Requests I've Made -->
         <div class="column">
             <h1>Requests I've Made</h1>
-            {% for listing in listings %}
+            {% for booking in outgoing %}
             <div class="ListingsBox">
-                <p class="boxtext">Requested Listing: {{listing.name}}</p>
-                <p class="boxtext">Description: {{listing.description}}</p>
-                <p class="boxtext">Location: {{listing.location}}</p>
-                <p class="boxtext">Price per night: £{{listing.price}}</p>
+                <p class="boxtext">Requested Listing: {{booking.listing_name}}</p>
+                <p class="boxtext">Request Status: {{booking.status}}</p>
+                <p class="boxtext">Start Date: {{booking.start_date}}</p>
+                <p class="boxtext">End Date: {{booking.end_date}}</p>
+                <p class="boxtext">Price per night: £{{booking.price}}</p>
             </div>
             {% endfor %}
         </div>
@@ -45,19 +46,35 @@
         <!-- Column 2: Requests I've Received -->
         <div class="column">
             <h1>Requests I've Received</h1>
-            {% for listing in listings %}
+            {% for booking in incoming %}
             <div class="ListingsBox">
-                <p class="boxtext">Requested Listing: {{listing.name}}</p>
-                <p class="boxtext">Requested By: Dewi!</p>
-                <p class="boxtext">Description: {{listing.description}}</p>
-                <p class="boxtext">Location: {{listing.location}}</p>
-                <p class="boxtext">Price per night: £{{listing.price}}</p>
-                <form action="/accept_booking" method="POST">
-                    <input type="submit" value="Accept">
+                <p class="boxtext">Requested Listing: {{booking.listing_name}}</p>
+                <p class="boxtext">Requested By: {{booking.requester_name}}</p>
+                <p class="boxtext">Request Status: {{booking.status}}</p>
+                <p class="boxtext">Start Date: {{booking.start_date}}</p>
+                <p class="boxtext">End Date: {{booking.end_date}}</p>
+                <p class="boxtext">Price per night: £{{booking.price}}</p>
+                <form action="/update_booking_status" method="POST">
+                    <input type="hidden" name="listing_id" value={{booking.listing_id}}>
+                    <input type="hidden" name="requester_id" value={{booking.requester_id}}>
+                    <button type="submit" name="action" value="Confirm">Confirm</button>
                 </form>
-                <form action="/reject_booking" method="POST">
-                    <input type="submit" value="Reject">
+                <form action="/update_booking_status" method="POST">
+                    <input type="hidden" name="listing_id" value={{booking.listing_id}}>
+                    <input type="hidden" name="requester_id" value={{booking.requester_id}}>
+                    <button type="submit" name="action" value="Denied">Deny</button>
                 </form>
+            </div>
+            {% endfor %}
+            <h1>Requests I've Responded To</h1>
+            {% for booking in incoming_responded %}
+            <div class="ListingsBox">
+                <p class="boxtext">Requested Listing: {{booking.listing_name}}</p>
+                <p class="boxtext">Requested By: {{booking.requester_name}}</p>
+                <p class="boxtext">Request Status: {{booking.status}}</p>
+                <p class="boxtext">Start Date: {{booking.start_date}}</p>
+                <p class="boxtext">End Date: {{booking.end_date}}</p>
+                <p class="boxtext">Price per night: £{{booking.price}}</p>
             </div>
             {% endfor %}
         </div>

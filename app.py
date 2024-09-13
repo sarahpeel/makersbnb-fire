@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, redirect, session, render_template
+from flask import Flask, request, redirect, session, render_template, flash
 from lib.database_connection import get_flask_database_connection
 from datetime import datetime
 from lib.user_repository import UserRepository
@@ -156,17 +156,43 @@ def get_listings():
 
 @app.route('/my_requests', methods=['GET'])
 def get_my_requests():
-    connection = get_flask_database_connection(app)
-    listings_repo = ListingRepository(connection)
-
-    logged_in = True
+  
+   logged_in = True
     if 'user_id' not in session:
         logged_in = False
+        return redirect('/register')
+    elif 'user_id' in session:
+        user_id = session['user_id']
+        connection = get_flask_database_connection(app)
+        repo = BookingRepository(connection)
+        outgoing = repo.find_booking_by_requester_id(user_id)
 
-    listings = listings_repo.all()
-    requests = ["This", "is", "a", "placeholder"]
-    return render_template('my_requests.html', requests=requests, listings=listings, logged_in = logged_in)
+        incoming = []
+        _incoming = repo.find_booking_by_listing_user(user_id)
+        for entry in _incoming:
+            for subentry in entry.bookings:
+                if subentry.status == "requested":
+                    item = subentry
+                    incoming.append(item)
 
+        incoming_responded = []
+        _incoming = repo.find_booking_by_listing_user(user_id)
+        for entry in _incoming:
+            for subentry in entry.bookings:
+                if subentry.status != "requested":
+                    item = subentry
+                    incoming_responded.append(item)
+                
+
+    return render_template('my_requests.html', outgoing = outgoing, incoming = incoming, incoming_responded = incoming_responded, logged_in = logged_in)
+
+@app.route('/requests_made', methods=['GET'])
+def requests_made_redirect():
+    return redirect('/my_requests')
+
+@app.route('/requests_received', methods=['GET'])
+def requests_received_redirect():
+    return redirect('/my_requests')
 
 @app.route('/listings', methods=['POST'])
 def request_a_space():
@@ -191,6 +217,24 @@ def request_a_space():
     
     #  Redirect to requests page
     return redirect('/listings')
+
+@app.route('/update_booking_status', methods=['POST'])
+def post_update_booking_status():
+    connection = get_flask_database_connection(app)
+    booking_repo = BookingRepository(connection)
+    if 'user_id' not in session:
+        return redirect('/register')
+    listing_id = request.form['listing_id']
+    requester_id = request.form['requester_id']
+    action = request.form['action']
+
+    if action == 'Confirm':
+        booking_repo.change_status_from_requested_to_confirmed(listing_id, requester_id)
+        flash('Booking request accepted successfully!')
+    elif action == 'Denied':
+        booking_repo.change_status_from_requested_to_denied(listing_id, requester_id)
+        flash('Booking request rejected.')
+    return redirect('/my_requests')
 
 @app.route('/logout')
 def logout():
