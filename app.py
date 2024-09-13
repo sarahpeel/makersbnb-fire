@@ -140,11 +140,32 @@ def get_listings():
 
 @app.route('/my_requests', methods=['GET'])
 def get_my_requests():
-    connection = get_flask_database_connection(app)
-    listings_repo = ListingRepository(connection)
-    listings = listings_repo.all()
-    requests = ["This", "is", "a", "placeholder"]
-    return render_template('my_requests.html', requests=requests, listings=listings)
+    if 'user_id' not in session:
+        return redirect('/register')
+    elif 'user_id' in session:
+        user_id = session['user_id']
+        connection = get_flask_database_connection(app)
+        repo = BookingRepository(connection)
+        outgoing = repo.find_booking_by_requester_id(user_id)
+
+        incoming = []
+        _incoming = repo.find_booking_by_listing_user(user_id)
+        for entry in _incoming:
+            for subentry in entry.bookings:
+                if subentry.status == "requested":
+                    item = subentry
+                    incoming.append(item)
+
+        incoming_responded = []
+        _incoming = repo.find_booking_by_listing_user(user_id)
+        for entry in _incoming:
+            for subentry in entry.bookings:
+                if subentry.status != "requested":
+                    item = subentry
+                    incoming_responded.append(item)
+                
+
+    return render_template('my_requests.html', outgoing = outgoing, incoming = incoming, incoming_responded = incoming_responded)
 
 
 @app.route('/listings', methods=['POST'])
