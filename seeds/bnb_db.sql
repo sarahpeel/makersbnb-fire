@@ -19,9 +19,7 @@ CREATE TABLE listings (
     name text,
     description text,
     location text,
-    -- availability int ARRAY,
     price int,
-    -- occupied boolean,
     user_id int,
     constraint fk_user foreign key(user_id)
         references users(id)
@@ -32,9 +30,12 @@ CREATE TABLE bookings (
     id SERIAL PRIMARY KEY,
     listing_id INT,
     requester_id INT,
+    requester_name TEXT,
     start_date DATE,
     end_date DATE,
     status TEXT, 
+    listing_name TEXT,
+    price INT,
     CONSTRAINT fk_listing FOREIGN KEY(listing_id) REFERENCES listings(id) ON DELETE CASCADE,
     CONSTRAINT fk_user FOREIGN KEY(requester_id) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -51,8 +52,8 @@ INSERT INTO listings (name, description, location, price, user_id) VALUES ('Wind
 INSERT INTO listings (name, description, location, price, user_id) VALUES ('SS Great Britain', 'Really wet', 'Bristol', 180, 3);
 
 
-INSERT INTO bookings (listing_id, requester_id, start_date, end_date, status) VALUES (1, 2, '2023-09-10', '2023-09-12', 'requested');
-INSERT INTO bookings (listing_id, requester_id, start_date, end_date, status) VALUES (1, 3, '2023-10-10', '2023-10-12', 'requested');
-INSERT INTO bookings (listing_id, requester_id, start_date, end_date, status) VALUES (2, 3, '2023-06-15', '2023-06-20', 'confirmed');
-INSERT INTO bookings (listing_id, requester_id, start_date, end_date, status) VALUES (2, 3, '2023-12-15', '2023-12-20', 'confirmed');
-INSERT INTO bookings (listing_id, requester_id, start_date, end_date, status) VALUES (3, 1, '2023-12-10', '2023-12-10', 'requested');
+INSERT INTO bookings (listing_id, requester_id, requester_name, start_date, end_date, status, listing_name, price) VALUES (1, 2, 'Sarah', '2023-09-10', '2023-09-12', 'requested', 'Blackpool Tower', 25);
+INSERT INTO bookings (listing_id, requester_id, requester_name, start_date, end_date, status, listing_name, price) VALUES (1, 3, 'Andy', '2023-10-10', '2023-10-12', 'requested', 'Blackpool Tower', 25);
+INSERT INTO bookings (listing_id, requester_id, requester_name, start_date, end_date, status, listing_name, price) VALUES (2, 3, 'Andy','2023-06-15', '2023-06-20', 'confirmed', 'London Eye', 150);
+INSERT INTO bookings (listing_id, requester_id, requester_name, start_date, end_date, status, listing_name, price) VALUES (2, 3, 'Andy','2023-12-15', '2023-12-20', 'confirmed', 'London Eye', 150);
+INSERT INTO bookings (listing_id, requester_id, requester_name, start_date, end_date, status, listing_name, price) VALUES (3, 1, 'Catherine', '2023-12-10', '2023-12-10', 'requested','Windsor Castle', 1150);
