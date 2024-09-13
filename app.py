@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, redirect, session, render_template
+from flask import Flask, request, redirect, session, render_template, flash
 from lib.database_connection import get_flask_database_connection
 from datetime import datetime
 from lib.user_repository import UserRepository
@@ -191,6 +191,24 @@ def request_a_space():
     
     #  Redirect to requests page
     return redirect('/listings')
+
+@app.route('/update_booking_status', methods=['POST'])
+def post_update_booking_status():
+    connection = get_flask_database_connection(app)
+    booking_repo = BookingRepository(connection)
+    if 'user_id' not in session:
+        return redirect('/register')
+    listing_id = request.form['listing_id']
+    requester_id = request.form['requester_id']
+    action = request.form['action']
+
+    if action == 'Confirm':
+        booking_repo.change_status_from_requested_to_confirmed(listing_id, requester_id)
+        flash('Booking request accepted successfully!')
+    elif action == 'Denied':
+        booking_repo.change_status_from_requested_to_denied(listing_id, requester_id)
+        flash('Booking request rejected.')
+    return redirect('/my_requests')
 
 @app.route('/logout')
 def logout():
