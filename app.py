@@ -133,9 +133,13 @@ def get_listings():
 @app.route('/my_requests', methods=['GET'])
 def get_my_requests():
     connection = get_flask_database_connection(app)
+
     listings_repo = ListingRepository(connection)
     listings = listings_repo.all()
-    requests = ["This", "is", "a", "placeholder"]
+
+    requests_repo = BookingRepository(connection)
+    requests = requests_repo.find_booking_by_requester_id()
+    
     return render_template('my_requests.html', requests=requests, listings=listings)
 
 

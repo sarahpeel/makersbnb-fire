@@ -50,16 +50,19 @@
 
                 {% for booking in bookings %}
                     {% if booking.listing_id == listing.id %}
-                        <form action="/update_booking_status" method="POST">
+                        <form action="/update_booking_status" method="POST" id="confirm">
                             <input type="hidden" name="listing_id" value="{{ listing.id }}">
                             <input type="hidden" name="requester_id" value="{{ booking.requester_id }}">
-                            <input type="submit" name="action" value="Confirm">
                         </form>
-                        <form action="/update_booking_status" method="POST">
+
+                        <button type="submit" name="action" form="confirm" value="Submit">Confirm</button>
+
+                        <form action="/update_booking_status" method="POST" id="deny">
                             <input type="hidden" name="listing_id" value="{{ listing.id }}">
                             <input type="hidden" name="requester_id" value="{{ booking.requester_id }}">
-                            <input type="submit" name="action" value="Denied">
                         </form>
+
+                        <button type="submit" form="deny" value="Submit">Denied</button>
                     {% endif %}
                 {% endfor %}
             </div>
